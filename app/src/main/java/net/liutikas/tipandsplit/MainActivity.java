@@ -2,15 +2,13 @@ package net.liutikas.tipandsplit;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -37,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mPercentGroup = (RadioGroup) findViewById(R.id.perc_radio);
+        mPercentGroup = findViewById(R.id.perc_radio);
         mPercentGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -57,12 +55,12 @@ public class MainActivity extends AppCompatActivity {
                 updatePayInfo();
             }
         });
-        mBillEditText = (EditText) findViewById(R.id.bill);
-        mTipTextView = (TextView) findViewById(R.id.tip);
-        mTotalTextView = (TextView) findViewById(R.id.total);
-        mPerPerson = (TextView) findViewById(R.id.per_person);
-        mCustomTip = (EditText) findViewById(R.id.custom_tip);
-        mStepperWidget = (StepperWidget) findViewById(R.id.stepper);
+        mBillEditText = findViewById(R.id.bill);
+        mTipTextView = findViewById(R.id.tip);
+        mTotalTextView = findViewById(R.id.total);
+        mPerPerson = findViewById(R.id.per_person);
+        mCustomTip = findViewById(R.id.custom_tip);
+        mStepperWidget = findViewById(R.id.stepper);
         mStepperWidget.setMin(1);
         mStepperWidget.setMax(10);
         mStepperWidget.addOnUpdateListener(new StepperWidget.OnUpdateListener() {

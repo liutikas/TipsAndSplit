@@ -2,10 +2,7 @@ package net.liutikas.widget;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.View;
@@ -53,10 +50,10 @@ public class StepperWidget extends LinearLayout {
         super(context, attrs);
         setOrientation(VERTICAL);
         inflate(context, R.layout.stepper, this);
-        mPlusButton = (ImageButton) findViewById(R.id.plus);
-        mMinusButton = (ImageButton) findViewById(R.id.minus);
-        mLabelOne = (TextView) findViewById(R.id.label1);
-        mLabelTwo = (TextView) findViewById(R.id.label2);
+        mPlusButton = findViewById(R.id.plus);
+        mMinusButton = findViewById(R.id.minus);
+        mLabelOne = findViewById(R.id.label1);
+        mLabelTwo = findViewById(R.id.label2);
         mLabelHeight =
                 context.getResources().getDimensionPixelSize(R.dimen.stepper_widget_label_height);
         mPlusButton.setOnClickListener(new OnClickListener() {
@@ -71,9 +68,7 @@ public class StepperWidget extends LinearLayout {
                 updateLabel(-1);
             }
         });
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
-            initalizeAnimator();
-        }
+        initalizeAnimator();
         mListeners = new ArrayList<>();
         updateLabel(0);
     }
@@ -113,7 +108,6 @@ public class StepperWidget extends LinearLayout {
         return mCounter;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void initalizeAnimator() {
         mSwitchAnimator = ValueAnimator.ofInt(100);
         mSwitchAnimator.setDuration(300);
@@ -180,32 +174,25 @@ public class StepperWidget extends LinearLayout {
 
     private void updateLabel(int change) {
         mCounter += change;
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
-            if (mBounceAnimator.isRunning()) {
-                mBounceAnimator.end();
-            }
-            if (mSwitchAnimator.isRunning()) {
-                mSwitchAnimator.end();
-            }
-            if (mCounter < mMin) {
-                mCounter = mMin;
-                updateLabelVisibility(mLabelOneVisible);
-                bounceLabelAnimated(change);
-            } else if (mCounter > mMax) {
-                mCounter = mMax;
-                updateLabelVisibility(mLabelOneVisible);
-                bounceLabelAnimated(change);
-            } else {
-                for (OnUpdateListener listener : mListeners) {
-                    listener.onUpdate(mCounter - change, mCounter);
-                }
-                switchLabelAnimated(change);
-            }
+        if (mBounceAnimator.isRunning()) {
+            mBounceAnimator.end();
+        }
+        if (mSwitchAnimator.isRunning()) {
+            mSwitchAnimator.end();
+        }
+        if (mCounter < mMin) {
+            mCounter = mMin;
+            updateLabelVisibility(mLabelOneVisible);
+            bounceLabelAnimated(change);
+        } else if (mCounter > mMax) {
+            mCounter = mMax;
+            updateLabelVisibility(mLabelOneVisible);
+            bounceLabelAnimated(change);
         } else {
-            updateLabelVisibility(!mLabelOneVisible);
             for (OnUpdateListener listener : mListeners) {
                 listener.onUpdate(mCounter - change, mCounter);
             }
+            switchLabelAnimated(change);
         }
     }
 
@@ -222,13 +209,11 @@ public class StepperWidget extends LinearLayout {
         mLabelOneVisible = labelOneVisible;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void bounceLabelAnimated(int change) {
         mChange = change;
         mBounceAnimator.start();
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void switchLabelAnimated(final int change) {
         mChange = change;
         final TextView enteringLabel = getEnteringLabel();

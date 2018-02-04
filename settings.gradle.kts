@@ -1,7 +1,7 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        maven { url = uri("https://maven.google.com/") }
+        google()
     }
     resolutionStrategy {
         eachPlugin {
@@ -13,4 +13,4 @@ pluginManagement {
     }
 }
 
-include ':app', ':stepperwidget'
+include(":app", ":stepperwidget")
